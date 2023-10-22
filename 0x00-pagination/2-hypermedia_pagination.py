@@ -49,15 +49,15 @@ class Server:
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> List[List[str]]:
         """Returns a dictionary containing the following key-value pairs"""
-        page_dict = {}
-        page_dict['page'] = page
-        page_dict['page_size'] = page_size
-        page_dict['data'] = self.get_page()
-        page_dict['next_page'] = page_dict['page'] + 1
-        page_dict['prev_page'] = page_dict['page'] - 1
-
-        dataset = self.dataset()
-        total_pages = len(dataset)
-        page_dict['total_pages'] = total_pages
+        data = self.get_page(page, page_size)
+        total_pages = len(self.dataset()) // page_size + 1
+        page_dict = {
+            "page": page,
+            "page_size": page_size if page_size <= len(data) else len(data),
+            "data": data,
+            "prev_page": page - 1 if page > 1 else None,
+            "next_page": page + 1 if page + 1 <= total_pages else None,
+            "total_pages": total_pages
+        }
 
         return page_dict
