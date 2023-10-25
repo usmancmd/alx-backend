@@ -15,7 +15,7 @@ class LFUCache(BaseCaching):
         self.access_time = {}  # Track the access time of each key
 
     def put(self, key, item):
-        """Assign value for a given key"""
+        """Assign item for a given key"""
         if key is None or item is None:
             return
 
