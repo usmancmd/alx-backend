@@ -11,8 +11,10 @@ class LFUCache(BaseCaching):
     def __init__(self):
         """init method"""
         super().__init__()
-        self.frequency = defaultdict(int)  # Track the usage frequency of each key
-        self.access_time = {}  # Track the access time of each key
+        # Track the usage frequency of each key
+        self.frequency = defaultdict(int)
+        # Track the access time of each key
+        self.access_time = {}
 
     def put(self, key, item):
         """Assign item for a given key"""
@@ -24,14 +26,15 @@ class LFUCache(BaseCaching):
             least_frequency = min(self.frequency.values())
 
             # Find all keys with the least frequency
-            least_frequent_keys = [k for k, v in self.frequency.items() if v == least_frequency]
+            least_frequent_keys = [k
+                                   for k, v in self.frequency.items()
+                                   if v == least_frequency]
 
             if len(least_frequent_keys) == 1:
-                # If there is only one key with the least frequency, remove it
                 discarded_key = least_frequent_keys[0]
             else:
-                # If there are multiple keys with the least frequency, use LRU to break the tie
-                discarded_key = min(least_frequent_keys, key=lambda k: self.access_time[k])
+                discarded_key = min(least_frequent_keys,
+                                    key=lambda k: self.access_time[k])
 
             self.frequency.pop(discarded_key)
             self.access_time.pop(discarded_key)
