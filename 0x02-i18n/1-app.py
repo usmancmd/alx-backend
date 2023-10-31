@@ -4,20 +4,17 @@
 from flask import Flask, render_template
 from flask_babel import Babel
 
-app = Flask(__name__)
-babel = Babel(app)
-
 class Config(object):
     """config class"""
-    LANGUAGES = ['en', 'es']
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
+app = Flask(__name__)
 app.config.from_object(Config)
+babel = Babel(app)
 
-@babel.localeselector
-def get_locale():
-    """Set the default locale"""
-    return "en"
 
 @app.route("/")
 def index_page() -> str:
